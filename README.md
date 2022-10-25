@@ -1,1 +1,2 @@
 # MovieAggregator
+Architecture - MVC
