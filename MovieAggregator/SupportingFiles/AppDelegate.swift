@@ -1,9 +1,5 @@
-//
-//  AppDelegate.swift
-//  MovieAggregator
-//
-//  Created by Aleksandr Dorofeev on 25.10.2022.
-//
+// AppDelegate.swift
+// Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
@@ -13,6 +9,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _: UIApplication,
         didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        return true
+        true
     }
 }

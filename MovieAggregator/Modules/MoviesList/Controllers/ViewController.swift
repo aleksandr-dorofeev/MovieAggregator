@@ -1,9 +1,5 @@
-//
-//  ViewController.swift
-//  MovieAggregator
-//
-//  Created by Aleksandr Dorofeev on 25.10.2022.
-//
+// ViewController.swift
+// Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
