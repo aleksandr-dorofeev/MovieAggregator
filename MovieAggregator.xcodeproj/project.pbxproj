@@ -7,18 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F80EC4AA2907FDD6007E9437 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4A92907FDD6007E9437 /* MainTabViewController.swift */; };
+		F80EC4AD290803F1007E9437 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4AC290803F1007E9437 /* ProfileViewController.swift */; };
+		F80EC4B32908094B007E9437 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4B22908094B007E9437 /* Colors.swift */; };
+		F80EC4B6290812B7007E9437 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4B5290812B7007E9437 /* MovieCollectionViewCell.swift */; };
+		F80EC4B929081C2E007E9437 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4B829081C2E007E9437 /* Movie.swift */; };
+		F80EC4BC29081C9A007E9437 /* INetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4BB29081C9A007E9437 /* INetworkService.swift */; };
+		F80EC4BE29081D47007E9437 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4BD29081D47007E9437 /* NetworkService.swift */; };
+		F80EC4C029082832007E9437 /* PublicConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4BF29082832007E9437 /* PublicConstants.swift */; };
 		F8AC24542907417E00639953 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AC24532907417E00639953 /* AppDelegate.swift */; };
 		F8AC24562907417E00639953 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AC24552907417E00639953 /* SceneDelegate.swift */; };
-		F8AC24582907417E00639953 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AC24572907417E00639953 /* ViewController.swift */; };
+		F8AC24582907417E00639953 /* MovieListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AC24572907417E00639953 /* MovieListViewController.swift */; };
 		F8AC245D2907418000639953 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8AC245C2907418000639953 /* Assets.xcassets */; };
 		F8AC24602907418000639953 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8AC245E2907418000639953 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F80EC4A92907FDD6007E9437 /* MainTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
+		F80EC4AC290803F1007E9437 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		F80EC4B22908094B007E9437 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		F80EC4B5290812B7007E9437 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
+		F80EC4B829081C2E007E9437 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		F80EC4BB29081C9A007E9437 /* INetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INetworkService.swift; sourceTree = "<group>"; };
+		F80EC4BD29081D47007E9437 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		F80EC4BF29082832007E9437 /* PublicConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicConstants.swift; sourceTree = "<group>"; };
 		F8AC24502907417E00639953 /* MovieAggregator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieAggregator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AC24532907417E00639953 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F8AC24552907417E00639953 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F8AC24572907417E00639953 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F8AC24572907417E00639953 /* MovieListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewController.swift; sourceTree = "<group>"; };
 		F8AC245C2907418000639953 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8AC245F2907418000639953 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F8AC24612907418000639953 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -35,6 +51,80 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F80EC4A82907FD8C007E9437 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				F80EC4A92907FDD6007E9437 /* MainTabViewController.swift */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		F80EC4AB290803D0007E9437 /* ProfileTab */ = {
+			isa = PBXGroup;
+			children = (
+				F80EC4B029080741007E9437 /* Controllers */,
+			);
+			path = ProfileTab;
+			sourceTree = "<group>";
+		};
+		F80EC4AE29080663007E9437 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F80EC4AF2908066D007E9437 /* NetworkService */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F80EC4AF2908066D007E9437 /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				F80EC4BA29081C8A007E9437 /* Protocols */,
+				F80EC4BD29081D47007E9437 /* NetworkService.swift */,
+			);
+			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		F80EC4B029080741007E9437 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F80EC4AC290803F1007E9437 /* ProfileViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F80EC4B12908093E007E9437 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F80EC4B22908094B007E9437 /* Colors.swift */,
+				F80EC4BF29082832007E9437 /* PublicConstants.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F80EC4B429081292007E9437 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				F80EC4B5290812B7007E9437 /* MovieCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		F80EC4B729081C22007E9437 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F80EC4B829081C2E007E9437 /* Movie.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F80EC4BA29081C8A007E9437 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F80EC4BB29081C9A007E9437 /* INetworkService.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		F8AC24472907417E00639953 = {
 			isa = PBXGroup;
 			children = (
@@ -54,8 +144,12 @@
 		F8AC24522907417E00639953 /* MovieAggregator */ = {
 			isa = PBXGroup;
 			children = (
-				F8AC246D29074CF400639953 /* SupportingFiles */,
+				F80EC4B729081C22007E9437 /* Models */,
+				F80EC4B12908093E007E9437 /* Helpers */,
+				F80EC4AE29080663007E9437 /* Core */,
+				F80EC4A82907FD8C007E9437 /* Builder */,
 				F8AC246929074CA500639953 /* Modules */,
+				F8AC246D29074CF400639953 /* SupportingFiles */,
 				F8AC245C2907418000639953 /* Assets.xcassets */,
 				F8AC245E2907418000639953 /* LaunchScreen.storyboard */,
 				F8AC24612907418000639953 /* Info.plist */,
@@ -66,23 +160,25 @@
 		F8AC246929074CA500639953 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				F8AC246A29074CC200639953 /* MoviesList */,
+				F80EC4AB290803D0007E9437 /* ProfileTab */,
+				F8AC246A29074CC200639953 /* MoviesListTab */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		F8AC246A29074CC200639953 /* MoviesList */ = {
+		F8AC246A29074CC200639953 /* MoviesListTab */ = {
 			isa = PBXGroup;
 			children = (
+				F80EC4B429081292007E9437 /* Cells */,
 				F8AC246C29074CDD00639953 /* Controllers */,
 			);
-			path = MoviesList;
+			path = MoviesListTab;
 			sourceTree = "<group>";
 		};
 		F8AC246C29074CDD00639953 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				F8AC24572907417E00639953 /* ViewController.swift */,
+				F8AC24572907417E00639953 /* MovieListViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -209,9 +305,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8AC24582907417E00639953 /* ViewController.swift in Sources */,
+				F80EC4BE29081D47007E9437 /* NetworkService.swift in Sources */,
+				F8AC24582907417E00639953 /* MovieListViewController.swift in Sources */,
+				F80EC4B32908094B007E9437 /* Colors.swift in Sources */,
+				F80EC4AA2907FDD6007E9437 /* MainTabViewController.swift in Sources */,
+				F80EC4AD290803F1007E9437 /* ProfileViewController.swift in Sources */,
+				F80EC4B6290812B7007E9437 /* MovieCollectionViewCell.swift in Sources */,
 				F8AC24542907417E00639953 /* AppDelegate.swift in Sources */,
+				F80EC4B929081C2E007E9437 /* Movie.swift in Sources */,
 				F8AC24562907417E00639953 /* SceneDelegate.swift in Sources */,
+				F80EC4C029082832007E9437 /* PublicConstants.swift in Sources */,
+				F80EC4BC29081C9A007E9437 /* INetworkService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

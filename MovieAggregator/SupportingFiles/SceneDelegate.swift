@@ -1,9 +1,5 @@
-//
-//  SceneDelegate.swift
-//  MovieAggregator
-//
-//  Created by Aleksandr Dorofeev on 25.10.2022.
-//
+// SceneDelegate.swift
+// Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
@@ -17,8 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = ViewController()
-        window.backgroundColor = .white
+        let main = MainTabViewController()
+        window.rootViewController = main
         window.makeKeyAndVisible()
         self.window = window
     }
