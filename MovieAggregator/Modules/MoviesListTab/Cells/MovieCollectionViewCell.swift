@@ -5,29 +5,17 @@ import UIKit
 
 /// Movie Cell for movies list.
 final class MovieCollectionViewCell: UICollectionViewCell {
-    // MARK: - Public Constants.
-
-    enum Identifier {
-        static let movieCellID = "MovieCollectionViewCell"
-    }
-
     // MARK: - Private Constants.
 
     private enum Constants {
         static let notFavoritesMovieImageName = "star"
         static let favoritesMovieImageName = "star.fill"
         static let posterPlaceholderImageName = "poster"
-        static let posterPathImageUrl = "https://image.tmdb.org/t/p/w500"
-        static var imageUrlTwo = ""
     }
 
     // MARK: - Public properties.
 
-    let countCellForPagination = 2
-
-    // MARK: - Public properties.
-
-    private(set) var movies: [Movie]? = []
+    private var movies: [MovieList.Movie]? = []
 
     // MARK: - Private visual components.
 
@@ -42,7 +30,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.borderWidth = 2
-        imageView.layer.borderColor = UIColor(named: Colors.navigationBarColor)?.cgColor
+        imageView.layer.borderColor = UIColor(named: Colors.navigationBarColorName)?.cgColor
         imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,9 +42,9 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
         label.layer.borderWidth = 2
-        label.layer.borderColor = UIColor(named: Colors.navigationBarColor)?.cgColor
+        label.layer.borderColor = UIColor(named: Colors.navigationBarColorName)?.cgColor
         label.font = UIFont.systemFont(ofSize: 10, weight: .black)
-        label.textColor = UIColor(named: Colors.tintColor)
+        label.textColor = UIColor(named: Colors.tintColorName)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.baselineAdjustment = .none
@@ -67,11 +55,15 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     private var favoriteMovieButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: Constants.notFavoritesMovieImageName), for: .normal)
-        button.tintColor = UIColor(named: Colors.favoriteMovieColor)
+        button.tintColor = UIColor(named: Colors.favoriteMovieColorName)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+
+    // MARK: - Private properties.
+
+    private var currentPosterPath = ""
 
     // MARK: - Life cycle.
 
@@ -85,13 +77,14 @@ final class MovieCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Public methods.
 
-    func configureMoviesCell(movie: Movie) {
+    func configureMoviesCell(movie: MovieList.Movie) {
+        currentPosterPath = movie.posterPath ?? ""
         movieTitleLabel.text = movie.title
-        Constants.imageUrlTwo = movie.posterPath
-        let imageUrl = Constants.posterPathImageUrl + Constants.imageUrlTwo
-        DispatchQueue.main.async {
-            NetworkService.shared.downLoadImage(url: imageUrl) { image in
-                self.movieImageView.image = image
+        ImageLoading.shared.getPoster(imagePosterPath: currentPosterPath) { data in
+            DispatchQueue.main.async {
+                if movie.posterPath == self.currentPosterPath {
+                    self.movieImageView.image = UIImage(data: data)
+                }
             }
         }
     }
@@ -164,7 +157,7 @@ extension MovieCollectionViewCell {
                 favoriteMovieButton.leadingAnchor
                     .constraint(equalTo: cornerRadiusBackgroundView.leadingAnchor, constant: 145),
                 favoriteMovieButton.trailingAnchor
-                    .constraint(equalTo: cornerRadiusBackgroundView.trailingAnchor),
+                    .constraint(equalTo: cornerRadiusBackgroundView.trailingAnchor)
             ]
         )
     }

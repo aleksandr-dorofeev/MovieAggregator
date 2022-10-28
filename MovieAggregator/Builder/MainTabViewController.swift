@@ -10,8 +10,8 @@ final class MainTabViewController: UITabBarController {
     private enum Constants {
         static let tabMoviesTitleName = "Фильмы"
         static let tabMoviesImageName = "popcorn.circle.fill"
-        static let tabProfileTitleName = "Профиль"
-        static let tabProfileImageName = "person.crop.square.fill"
+        static let favoriteTitleName = "Избранное"
+        static let tabFavoriteImageName = "star"
     }
 
     // MARK: - Life cycle.
@@ -33,9 +33,9 @@ final class MainTabViewController: UITabBarController {
     }
 
     private func configureTabBar() {
-        view.backgroundColor = UIColor(named: Colors.backgroundColor)
-        UITabBar.appearance().backgroundColor = UIColor(named: Colors.tabBarBackgroundColor)
-        tabBar.tintColor = UIColor(named: Colors.tintColor)
+        view.backgroundColor = UIColor(named: Colors.backgroundColorName)
+        UITabBar.appearance().backgroundColor = UIColor(named: Colors.tabBarBackgroundColorName)
+        tabBar.tintColor = UIColor(named: Colors.tintColorName)
     }
 
     private func setupNavViewControllers() {
@@ -47,15 +47,15 @@ final class MainTabViewController: UITabBarController {
             ),
             createNavigationController(
                 for: ProfileViewController(),
-                title: Constants.tabProfileTitleName,
-                imageName: Constants.tabProfileImageName
+                title: Constants.favoriteTitleName,
+                imageName: Constants.tabFavoriteImageName
             ),
         ]
     }
 
     private func setupNavigationBarColorAppearance(navigationController: UINavigationController) {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor(named: Colors.navigationBarColor)
+        appearance.backgroundColor = UIColor(named: Colors.navigationBarColorName)
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController.navigationBar.tintColor = .white
         navigationController.navigationBar.standardAppearance = appearance

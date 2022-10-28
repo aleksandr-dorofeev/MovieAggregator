@@ -5,10 +5,11 @@ import Foundation
 
 /// Public colors.
 enum Colors {
-    static let backgroundColor = "BackgroundColor"
-    static let tintColor = "TintColor"
-    static let tabBarBackgroundColor = "TabBarBackgroundColor"
-    static let navigationBarColor = "NavigationBarColor"
-    static let favoriteMovieColor = "FavoriteMovieColor"
-    static let buttonColor = "ButtonColor"
+    static let backgroundColorName = "BackgroundColor"
+    static let tintColorName = "TintColor"
+    static let tabBarBackgroundColorName = "TabBarBackgroundColor"
+    static let navigationBarColorName = "NavigationBarColor"
+    static let favoriteMovieColorName = "FavoriteMovieColor"
+    static let buttonColorName = "ButtonColor"
+    static let textColorName = "TextColor"
 }

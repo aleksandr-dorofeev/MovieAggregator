@@ -1,13 +1,16 @@
 // NetworkService.swift
 // Copyright © RoadMap. All rights reserved.
 
-import UIKit
+import Foundation
 
 /// Network service layer.
-final class NetworkService: INetworkService {
+final class NetworkService {
+    // MARK: - Private enums.
+
     private enum UrlComponent {
-        static let movieBaseUrlText = "https://api.themoviedb.org/3/movie/"
+        static let genrePath = "genre/"
         static let apiKeyValueText = "8216e974d625f2a458a739c20007dcd6"
+        static let posterPathImageUrl = "https://image.tmdb.org/t/p/w500"
         static let languageValueText = "ru-RU"
         static let regionValueText = "ru"
     }
@@ -23,26 +26,57 @@ final class NetworkService: INetworkService {
 
     static let shared = NetworkService()
 
+    // MARK: - Private properties.
+
+    private let session = URLSession.shared
+
     // MARK: - Public methods.
 
-    func getMovies(
-        categoryOfMovies: String,
+    func fetchResult(
+        url: String,
+        categoryOfMovies: String?,
         page: Int,
-        _ completion: @escaping (Result<MovieList?, Error>) -> Void
+        completion: @escaping (Result<MovieList?, Error>) -> Void
+    ) {
+        getJson(url: url, categoryOfMovies: categoryOfMovies, page: page, completion: completion)
+    }
+
+    func fetchDetails(
+        url: String,
+        completion: @escaping (Result<MovieDetail?, Error>) -> Void
+    ) {
+        getJson(url: url, categoryOfMovies: nil, page: nil, completion: completion)
+    }
+
+    func fetchCast(
+        for url: String,
+        completion: @escaping (Result<CastResult?, Error>) -> Void
+    ) {
+        getJson(url: url, categoryOfMovies: nil, page: nil, completion: completion)
+    }
+
+    // MARK: - Private methods.
+
+    private func getJson<T: Decodable>(
+        url: String,
+        categoryOfMovies: String?,
+        page: Int?,
+        completion: @escaping (Result<T?, Error>) -> Void
     ) {
         guard var urlComponents = URLComponents(
-            string: UrlComponent.movieBaseUrlText + categoryOfMovies
+            string: url + (categoryOfMovies ?? "")
         )
         else { return }
         urlComponents.queryItems = [
             URLQueryItem(name: QueryItems.apiKeyQueryText, value: UrlComponent.apiKeyValueText),
             URLQueryItem(name: QueryItems.languageQueryText, value: UrlComponent.languageValueText),
-            URLQueryItem(name: QueryItems.regionQueryText, value: UrlComponent.regionValueText),
-            URLQueryItem(name: QueryItems.pageQueryText, value: "\(page)"),
+            URLQueryItem(name: QueryItems.regionQueryText, value: UrlComponent.regionValueText)
         ]
-//        print(urlComponents)
+        if page != nil {
+            urlComponents.queryItems?.append(URLQueryItem(name: QueryItems.pageQueryText, value: "\(page ?? 0)"))
+        }
         guard let url = urlComponents.url else { return }
-        URLSession.shared.dataTask(with: url) { jsonData, _, error in
+        session.dataTask(with: url) { jsonData, _, error in
             guard let data = jsonData else { return }
             if let error = error {
                 completion(.failure(error))
@@ -50,23 +84,10 @@ final class NetworkService: INetworkService {
             }
             do {
                 let decoder = JSONDecoder()
-                let obj = try decoder.decode(MovieList.self, from: data)
-                completion(.success(obj))
+                let movies = try decoder.decode(T.self, from: data)
+                completion(.success(movies))
             } catch {
                 completion(.failure(error))
-            }
-        }.resume()
-    }
-
-    func downLoadImage(url: String, completion: @escaping (_ image: UIImage) -> Void) {
-        guard let url = URL(string: url) else { return }
-
-        let session = URLSession.shared
-        session.dataTask(with: url) { data, _, _ in
-            if let data = data, let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    completion(image)
-                }
             }
         }.resume()
     }

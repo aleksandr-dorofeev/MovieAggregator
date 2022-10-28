@@ -12,9 +12,18 @@ final class MovieListViewController: UIViewController {
         static let popularButtonText = "Популярное"
         static let topRatingButtonText = "Топ"
         static let upComingButtonText = "Скоро"
+    }
+
+    private enum UrlComponent {
+        static let movieBaseUrlText = "https://api.themoviedb.org/3/"
+        static let moviePath = "movie/"
         static let topRatedCategoryUrlText = "top_rated?"
         static let popularCategoryUrlText = "popular?"
         static let upcomingCategoryUrlText = "upcoming?"
+    }
+
+    private enum Identifier {
+        static let movieCellID = "MovieCollectionViewCell"
     }
 
     // MARK: - Private enums.
@@ -30,7 +39,7 @@ final class MovieListViewController: UIViewController {
     private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.backgroundColor = UIColor(named: Colors.backgroundColor)
+        stackView.backgroundColor = UIColor(named: Colors.backgroundColorName)
         stackView.distribution = .fillEqually
         stackView.alignment = .center
         stackView.spacing = 10
@@ -40,11 +49,11 @@ final class MovieListViewController: UIViewController {
 
     private lazy var moviesCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
-        collectionView.backgroundColor = UIColor(named: Colors.backgroundColor)
+        collectionView.backgroundColor = UIColor(named: Colors.backgroundColorName)
         collectionView.contentInsetAdjustmentBehavior = .always
         collectionView.register(
             MovieCollectionViewCell.self,
-            forCellWithReuseIdentifier: MovieCollectionViewCell.Identifier.movieCellID
+            forCellWithReuseIdentifier: Identifier.movieCellID
         )
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -55,7 +64,7 @@ final class MovieListViewController: UIViewController {
     private lazy var popularButton: UIButton = {
         let button = UIButton()
         button.setTitle(Constants.popularButtonText, for: .normal)
-        button.backgroundColor = UIColor(named: Colors.buttonColor)
+        button.backgroundColor = UIColor(named: Colors.buttonColorName)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(popularAction), for: .touchUpInside)
         return button
@@ -64,7 +73,7 @@ final class MovieListViewController: UIViewController {
     private lazy var topRatedButton: UIButton = {
         let button = UIButton()
         button.setTitle(Constants.topRatingButtonText, for: .normal)
-        button.backgroundColor = UIColor(named: Colors.buttonColor)
+        button.backgroundColor = UIColor(named: Colors.buttonColorName)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(topRatingAction), for: .touchUpInside)
         return button
@@ -73,8 +82,12 @@ final class MovieListViewController: UIViewController {
     private lazy var upComingButton: UIButton = {
         let button = UIButton()
         button.setTitle(Constants.upComingButtonText, for: .normal)
-        button.backgroundColor = UIColor(named: Colors.buttonColor)
+        button.backgroundColor = UIColor(named: Colors.buttonColorName)
         button.layer.cornerRadius = 10
+        if button.isSelected {
+            button.layer.borderColor = UIColor(named: Colors.favoriteMovieColorName)?.cgColor
+            button.layer.borderWidth = 2
+        }
         button.addTarget(self, action: #selector(upComingAction), for: .touchUpInside)
         return button
     }()
@@ -82,19 +95,29 @@ final class MovieListViewController: UIViewController {
     // MARK: - Private properties.
 
     private let searchController = UISearchController(searchResultsController: nil)
-    private var movies: [Movie]? = []
-    private var page = 1
-    private let countCellForStartingPagination = 6
-    private var hasNextPage = true
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+
+    private var isFiltering: Bool {
+        searchController.isActive && !searchBarIsEmpty
+    }
+
+    private var movies: [MovieList.Movie]? = []
+    private var filteredMovies: [MovieList.Movie]? = []
+    private var currentPage = 1
     private var fetchingMore = false
+    private var isSearching = false
     private var currentCategoryMovies: CurrentCategoryOfMovies = .popular
+    private let movieListUrlString = UrlComponent.movieBaseUrlText + UrlComponent.moviePath
 
     // MARK: - Life cycle.
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchData(categoryOfMovies: Constants.popularCategoryUrlText)
+        fetchData(url: movieListUrlString, categoryOfMovies: UrlComponent.popularCategoryUrlText)
     }
 
     override func viewWillLayoutSubviews() {
@@ -110,16 +133,14 @@ final class MovieListViewController: UIViewController {
         createSearchController()
     }
 
-    private func fetchData(categoryOfMovies: String) {
+    private func fetchData(url: String, categoryOfMovies: String?) {
         fetchingMore = true
-        NetworkService.shared.getMovies(categoryOfMovies: categoryOfMovies, page: page) { result in
+        NetworkService.shared.fetchResult(url: url, categoryOfMovies: categoryOfMovies, page: currentPage) { result in
             DispatchQueue.main.async { [self] in
                 switch result {
                 case let .success(movies):
                     guard let secureFetchMovies = movies?.results else { return }
                     guard !secureFetchMovies.isEmpty else {
-                        self.hasNextPage = false
-                        self.fetchingMore = false
                         self.reloadMoviesList()
                         return
                     }
@@ -134,10 +155,17 @@ final class MovieListViewController: UIViewController {
     }
 
     private func loadMoreMovies() {
-        guard !fetchingMore, hasNextPage else { return }
-        page += 1
+        guard !fetchingMore else { return }
+        currentPage += 1
         DispatchQueue.main.async {
-            self.fetchData(categoryOfMovies: Constants.popularCategoryUrlText)
+            self.fetchData(url: self.movieListUrlString, categoryOfMovies: UrlComponent.popularCategoryUrlText)
+        }
+    }
+
+    private func filterContentForSearch(_ searchText: String) {
+        isSearching = true
+        filteredMovies = movies?.filter { (movies: MovieList.Movie) -> Bool in
+            movies.title.lowercased().contains(searchText.lowercased())
         }
     }
 
@@ -147,6 +175,14 @@ final class MovieListViewController: UIViewController {
 
     private func showError(error: Error) {
         print(error.localizedDescription)
+    }
+
+    private func showDetail(id: Int) {
+        let detailMovieViewController = MovieDetailViewController()
+        let urlWithID = movieListUrlString + "\(id)"
+        detailMovieViewController.loadMovie(urlWithID: urlWithID)
+        detailMovieViewController.urlMovieID = urlWithID
+        navigationController?.pushViewController(detailMovieViewController, animated: true)
     }
 
     private func addSubviews() {
@@ -199,30 +235,33 @@ final class MovieListViewController: UIViewController {
 
     // MARK: - Private actions.
 
-    @objc private func popularAction() {
+    @objc private func popularAction(_ sender: UIButton) {
         movies?.removeAll()
-        page = 1
+        currentPage = 1
         currentCategoryMovies = .popular
-        fetchData(categoryOfMovies: Constants.popularCategoryUrlText)
+        fetchData(url: movieListUrlString, categoryOfMovies: UrlComponent.popularCategoryUrlText)
     }
 
     @objc private func topRatingAction() {
         movies?.removeAll()
-        page = 1
+        currentPage = 1
         currentCategoryMovies = .topRating
-        fetchData(categoryOfMovies: Constants.topRatedCategoryUrlText)
+        fetchData(url: movieListUrlString, categoryOfMovies: UrlComponent.topRatedCategoryUrlText)
     }
 
     @objc private func upComingAction() {
         movies?.removeAll()
-        page = 1
+        currentPage = 1
         currentCategoryMovies = .upComing
-        fetchData(categoryOfMovies: Constants.upcomingCategoryUrlText)
+        fetchData(url: movieListUrlString, categoryOfMovies: UrlComponent.upcomingCategoryUrlText)
     }
 }
 
 extension MovieListViewController: UISearchResultsUpdating {
-    func updateSearchResults(for _: UISearchController) {}
+    func updateSearchResults(for _: UISearchController) {
+        filterContentForSearch(searchController.searchBar.text ?? "")
+        reloadMoviesList()
+    }
 
     private func createSearchController() {
         searchController.searchResultsUpdater = self
@@ -236,7 +275,11 @@ extension MovieListViewController: UISearchResultsUpdating {
 
 extension MovieListViewController: UICollectionViewDataSource {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        movies?.count ?? 0
+        if isFiltering {
+            return filteredMovies?.count ?? 0
+        } else {
+            return movies?.count ?? 0
+        }
     }
 
     func collectionView(
@@ -245,10 +288,10 @@ extension MovieListViewController: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         guard
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: MovieCollectionViewCell.Identifier.movieCellID,
+                withReuseIdentifier: Identifier.movieCellID,
                 for: indexPath
             ) as? MovieCollectionViewCell,
-            let movie = movies?[indexPath.row]
+            let movie = isFiltering ? filteredMovies?[indexPath.row] : movies?[indexPath.row]
         else { return UICollectionViewCell() }
         cell.configureMoviesCell(movie: movie)
         return cell
@@ -260,10 +303,15 @@ extension MovieListViewController: UICollectionViewDataSource {
         forItemAt indexPath: IndexPath
     ) {
         guard let movies = movies else { return }
-        if indexPath.row == movies.count - countCellForStartingPagination {
+        if indexPath.row == movies.count - 4 {
             loadMoreMovies()
         }
     }
 }
 
-extension MovieListViewController: UICollectionViewDelegate {}
+extension MovieListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let id = movies?[indexPath.row].id else { return }
+        showDetail(id: id)
+    }
+}
