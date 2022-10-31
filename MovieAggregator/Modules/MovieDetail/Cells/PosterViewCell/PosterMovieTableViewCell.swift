@@ -45,14 +45,14 @@ final class PosterMovieTableViewCell: UITableViewCell {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("")
     }
 
     // MARK: - Public methods.
 
     func configurePosterImage(movie: MovieDetail) {
-        guard let posterImage = movie.posterPath else { return }
-        ImageLoading.shared.getPoster(imagePosterPath: posterImage, completion: { data in
+        ImageLoading.shared.getPoster(imagePosterPath: movie.posterPath, completion: { [weak self] data in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 self.detailMovieImageView.image = UIImage(data: data)
             }

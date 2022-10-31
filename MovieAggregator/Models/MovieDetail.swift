@@ -5,15 +5,15 @@ import Foundation
 
 /// Model for detail information about film.
 struct MovieDetail: Decodable {
-    let backdropPath: String?
-    let posterPath: String?
-    let title: String?
-    let runtime: Int?
-    let voteAverage: Double?
-    let imdbId: String?
-    let releaseDate: String?
-    let genres: [Genres]?
-    let overview: String?
+    let backdropPath: String
+    let posterPath: String
+    let title: String
+    let runtime: Int
+    let voteAverage: Double
+    let imdbId: String
+    let releaseDate: String
+    let genres: [Genres]
+    let overview: String
 
     private enum CodingKeys: String, CodingKey {
         case title, runtime, genres, overview

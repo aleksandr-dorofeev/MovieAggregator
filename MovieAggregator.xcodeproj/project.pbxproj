@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F80EC4AA2907FDD6007E9437 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4A92907FDD6007E9437 /* MainTabViewController.swift */; };
-		F80EC4AD290803F1007E9437 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4AC290803F1007E9437 /* ProfileViewController.swift */; };
+		F80EC4AD290803F1007E9437 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4AC290803F1007E9437 /* FavoriteViewController.swift */; };
 		F80EC4B32908094B007E9437 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4B22908094B007E9437 /* Colors.swift */; };
 		F80EC4B6290812B7007E9437 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4B5290812B7007E9437 /* MovieCollectionViewCell.swift */; };
 		F80EC4BE29081D47007E9437 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80EC4BD29081D47007E9437 /* NetworkService.swift */; };
@@ -34,7 +34,7 @@
 
 /* Begin PBXFileReference section */
 		F80EC4A92907FDD6007E9437 /* MainTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
-		F80EC4AC290803F1007E9437 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		F80EC4AC290803F1007E9437 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		F80EC4B22908094B007E9437 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		F80EC4B5290812B7007E9437 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		F80EC4BD29081D47007E9437 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		F80EC4B029080741007E9437 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				F80EC4AC290803F1007E9437 /* ProfileViewController.swift */,
+				F80EC4AC290803F1007E9437 /* FavoriteViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -409,7 +409,7 @@
 				F80EC4CC290ABAEA007E9437 /* ImageLoading.swift in Sources */,
 				F80EC4C5290A72FD007E9437 /* MovieDetailViewController.swift in Sources */,
 				F80EC4EA290C1047007E9437 /* Cast.swift in Sources */,
-				F80EC4AD290803F1007E9437 /* ProfileViewController.swift in Sources */,
+				F80EC4AD290803F1007E9437 /* FavoriteViewController.swift in Sources */,
 				F80EC4B6290812B7007E9437 /* MovieCollectionViewCell.swift in Sources */,
 				F80EC4C22909A167007E9437 /* MovieList.swift in Sources */,
 				F80EC4D6290B3022007E9437 /* OverviewTableViewCell.swift in Sources */,

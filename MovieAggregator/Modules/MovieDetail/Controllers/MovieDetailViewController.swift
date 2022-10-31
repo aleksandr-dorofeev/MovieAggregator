@@ -32,7 +32,7 @@ final class MovieDetailViewController: UIViewController {
     // MARK: - Public properties.
 
     var movie: MovieDetail?
-    var urlMovieID = String()
+    var urlMovieID = ""
 
     // MARK: - Private properties.
 
@@ -88,7 +88,8 @@ final class MovieDetailViewController: UIViewController {
     // MARK: - Public methods.
 
     func loadMovie(urlWithID: String) {
-        NetworkService.shared.fetchDetails(url: urlWithID, completion: { result in
+        NetworkService.shared.fetchDetails(url: urlWithID, completion: { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case let .success(movie):
@@ -170,8 +171,6 @@ final class MovieDetailViewController: UIViewController {
             ]
         )
     }
-
-    // MARK: - Private actions.
 
     @objc private func backAction() {
         navigationController?.popToRootViewController(animated: true)

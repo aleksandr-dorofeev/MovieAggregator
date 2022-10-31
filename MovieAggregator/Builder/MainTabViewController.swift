@@ -26,7 +26,7 @@ final class MainTabViewController: UITabBarController {
         configureTabBar()
     }
 
-    // MARK: - Private visual components.
+    // MARK: - Private methods.
 
     private func setupUI() {
         setupNavViewControllers()
@@ -46,7 +46,7 @@ final class MainTabViewController: UITabBarController {
                 imageName: Constants.tabMoviesImageName
             ),
             createNavigationController(
-                for: ProfileViewController(),
+                for: FavoriteViewController(),
                 title: Constants.favoriteTitleName,
                 imageName: Constants.tabFavoriteImageName
             ),

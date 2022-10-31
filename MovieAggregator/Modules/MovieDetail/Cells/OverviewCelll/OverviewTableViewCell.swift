@@ -34,7 +34,7 @@ final class OverviewTableViewCell: UITableViewCell {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("")
     }
 
     func configureCell(movie: MovieDetail) {

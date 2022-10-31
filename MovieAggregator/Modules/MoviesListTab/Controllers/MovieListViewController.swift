@@ -36,6 +36,8 @@ final class MovieListViewController: UIViewController {
 
     // MARK: - Private visual components.
 
+    private let searchController = UISearchController(searchResultsController: nil)
+
     private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -94,7 +96,6 @@ final class MovieListViewController: UIViewController {
 
     // MARK: - Private properties.
 
-    private let searchController = UISearchController(searchResultsController: nil)
     private var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else { return false }
         return text.isEmpty
@@ -135,37 +136,37 @@ final class MovieListViewController: UIViewController {
 
     private func fetchData(url: String, categoryOfMovies: String?) {
         fetchingMore = true
-        NetworkService.shared.fetchResult(url: url, categoryOfMovies: categoryOfMovies, page: currentPage) { result in
-            DispatchQueue.main.async { [self] in
-                switch result {
-                case let .success(movies):
-                    guard let secureFetchMovies = movies?.results else { return }
-                    guard !secureFetchMovies.isEmpty else {
+        NetworkService.shared
+            .fetchResult(url: url, categoryOfMovies: categoryOfMovies, page: currentPage) { [weak self] result in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    switch result {
+                    case let .success(movies):
+                        guard let secureFetchMovies = movies?.movies else { return }
+                        guard !secureFetchMovies.isEmpty else {
+                            self.reloadMoviesList()
+                            return
+                        }
+                        self.movies?.append(contentsOf: secureFetchMovies)
                         self.reloadMoviesList()
-                        return
+                    case let .failure(error):
+                        self.showError(error: error)
                     }
-                    self.movies?.append(contentsOf: secureFetchMovies)
-                    self.reloadMoviesList()
-                case let .failure(error):
-                    self.showError(error: error)
+                    self.fetchingMore = false
                 }
-                self.fetchingMore = false
             }
-        }
     }
 
     private func loadMoreMovies() {
         guard !fetchingMore else { return }
         currentPage += 1
-        DispatchQueue.main.async {
-            self.fetchData(url: self.movieListUrlString, categoryOfMovies: UrlComponent.popularCategoryUrlText)
-        }
+        fetchData(url: movieListUrlString, categoryOfMovies: UrlComponent.popularCategoryUrlText)
     }
 
     private func filterContentForSearch(_ searchText: String) {
         isSearching = true
-        filteredMovies = movies?.filter { (movies: MovieList.Movie) -> Bool in
-            movies.title.lowercased().contains(searchText.lowercased())
+        filteredMovies = movies?.filter {
+            $0.title.lowercased().contains(searchText.lowercased())
         }
     }
 
@@ -232,8 +233,6 @@ final class MovieListViewController: UIViewController {
         layout.itemSize = CGSize(width: cellWidthConstant, height: cellHeightConstant)
         return layout
     }
-
-    // MARK: - Private actions.
 
     @objc private func popularAction(_ sender: UIButton) {
         movies?.removeAll()

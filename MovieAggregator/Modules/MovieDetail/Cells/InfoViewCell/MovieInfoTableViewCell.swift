@@ -68,8 +68,7 @@ final class MovieInfoTableViewCell: UITableViewCell {
     func configureCell(movie: MovieDetail) {
         movieTitleLabel.text = movie.title
         movieReleaseDateLabel.text = movie.releaseDate
-        guard let rating = movie.voteAverage else { return }
-        movieRatingLabel.text = "\(rating)"
+        movieRatingLabel.text = "\(movie.voteAverage)"
     }
 
     // MARK: - Private methods.

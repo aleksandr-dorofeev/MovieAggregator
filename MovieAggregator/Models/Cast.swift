@@ -6,7 +6,7 @@ import Foundation
 /// CastResult model.
 struct CastResult: Decodable {
     let id: Int
-    let cast: [Cast]?
+    let cast: [Cast]
 }
 
 /// Extension for cast.

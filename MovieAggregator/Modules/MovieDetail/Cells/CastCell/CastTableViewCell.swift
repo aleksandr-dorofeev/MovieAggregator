@@ -61,7 +61,7 @@ final class CastTableViewCell: UITableViewCell, UICollectionViewDataSource {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("")
     }
 
     // MARK: - Public methods.
@@ -69,7 +69,7 @@ final class CastTableViewCell: UITableViewCell, UICollectionViewDataSource {
     func loadCast(urlMovieID: String) {
         NetworkService.shared.fetchCast(for: urlMovieID, completion: { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async { [self] in
+            DispatchQueue.main.async {
                 switch result {
                 case let .success(cast):
                     guard let secureFetchCast = cast?.cast else { return }
@@ -85,6 +85,8 @@ final class CastTableViewCell: UITableViewCell, UICollectionViewDataSource {
             }
         })
     }
+
+    // MARK: - Private methods.
 
     private func setupUI() {
         contentView.addSubview(containerView)

@@ -68,10 +68,12 @@ final class ActorCollectionViewCell: UICollectionViewCell {
     // MARK: - Life cycle.
 
     override func layoutSubviews() {
+        super.layoutSubviews()
         setupUI()
     }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         actorImageView.image = UIImage(named: Constants.personPlaceholder)
     }
 
@@ -81,8 +83,9 @@ final class ActorCollectionViewCell: UICollectionViewCell {
         currentActorPath = cast.profilePath ?? ""
         actorNameLabel.text = cast.name
         characterNameLabel.text = cast.character
-        guard let actorImagePath = cast.profilePath else { return }
-        ImageLoading.shared.getPoster(imagePosterPath: actorImagePath) { data in
+        guard let actorPoster = cast.profilePath else { return }
+        ImageLoading.shared.getPoster(imagePosterPath: actorPoster) { [weak self] data in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 if cast.profilePath == self.currentActorPath {
                     self.actorImageView.image = UIImage(data: data)

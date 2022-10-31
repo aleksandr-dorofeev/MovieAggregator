@@ -68,19 +68,22 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     // MARK: - Life cycle.
 
     override func layoutSubviews() {
+        super.layoutSubviews()
         setupUI()
     }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         movieImageView.image = UIImage(named: Constants.posterPlaceholderImageName)
     }
 
     // MARK: - Public methods.
 
     func configureMoviesCell(movie: MovieList.Movie) {
-        currentPosterPath = movie.posterPath ?? ""
+        currentPosterPath = movie.posterPath
         movieTitleLabel.text = movie.title
-        ImageLoading.shared.getPoster(imagePosterPath: currentPosterPath) { data in
+        ImageLoading.shared.getPoster(imagePosterPath: currentPosterPath) { [weak self] data in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 if movie.posterPath == self.currentPosterPath {
                     self.movieImageView.image = UIImage(data: data)

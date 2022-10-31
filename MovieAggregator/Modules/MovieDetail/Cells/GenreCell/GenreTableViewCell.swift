@@ -41,19 +41,18 @@ final class GenreTableViewCell: UITableViewCell {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("")
     }
 
     // MARK: - Public properties.
 
     func configureCell(genre: MovieDetail) {
         var genres = String()
-        guard let genreName = genre.genres else { return }
-        for genre in genreName {
-            genres += genre.name + Constants.commaText + Constants.spaceText
+        for genre in genre.genres {
+            genres += "\(genre.name)\(Constants.commaText)\(Constants.spaceText)"
         }
         let subGenres = genres.dropLast(2)
-        genreLabel.text = String(Constants.genreTitle + subGenres)
+        genreLabel.text = String("\(Constants.genreTitle)\(subGenres)")
     }
 
     // MARK: - Private properties.

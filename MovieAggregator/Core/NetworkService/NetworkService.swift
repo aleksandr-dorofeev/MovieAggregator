@@ -30,6 +30,10 @@ final class NetworkService {
 
     private let session = URLSession.shared
 
+    // MARK: - Life cycle.
+
+    private init() {}
+
     // MARK: - Public methods.
 
     func fetchResult(
@@ -64,7 +68,7 @@ final class NetworkService {
         completion: @escaping (Result<T?, Error>) -> Void
     ) {
         guard var urlComponents = URLComponents(
-            string: url + (categoryOfMovies ?? "")
+            string: "\(url)\(categoryOfMovies ?? "")"
         )
         else { return }
         urlComponents.queryItems = [

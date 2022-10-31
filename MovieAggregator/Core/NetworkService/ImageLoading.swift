@@ -21,10 +21,14 @@ final class ImageLoading {
     private var posterImagesMap: [String: Data] = [:]
     private var actorImagesMap: [String: Data] = [:]
 
+    // MARK: - Life cycle.
+
+    private init() {}
+
     // MARK: - Public methods.
 
     func getPoster(imagePosterPath: String, completion: @escaping (Data) -> ()) {
-        let imagePath = UrlComponent.posterPathImageUrl + imagePosterPath
+        let imagePath = "\(UrlComponent.posterPathImageUrl)\(imagePosterPath)"
         if let data = posterImagesMap[imagePath] {
             completion(data)
         } else {
@@ -33,7 +37,7 @@ final class ImageLoading {
     }
 
     func getActorImage(imageActorPath: String, completion: @escaping (Data) -> ()) {
-        let imagePath = UrlComponent.posterPathImageUrl + imageActorPath
+        let imagePath = "\(UrlComponent.posterPathImageUrl)\(imageActorPath)"
         if let data = actorImagesMap[imagePath] {
             completion(data)
         } else {
@@ -44,34 +48,32 @@ final class ImageLoading {
     // MARK: - Private methods
 
     private func loadPoster(imagePosterPath: String, completion: @escaping (Data) -> Void) {
-        guard let urlComponents = URLComponents(
-            string: UrlComponent.posterPathImageUrl + imagePosterPath
-        ) else { return }
-        guard let url = urlComponents.url else { return }
-        session.dataTask(with: url) { [weak self] data, _, _ in
-            guard
-                let self = self,
-                let data = data
-            else {
-                return
-            }
+        guard
+            let urlComponents = URLComponents(
+                string: "\(UrlComponent.posterPathImageUrl)\(imagePosterPath)"
+            ),
+            let url = urlComponents.url
+        else {
+            return
+        }
+        session.dataTask(with: url) { data, _, _ in
+            guard let data = data else { return }
             self.posterImagesMap[imagePosterPath] = data
             completion(data)
         }.resume()
     }
 
     private func loadActorImage(imageActorPath: String, completion: @escaping (Data) -> Void) {
-        guard let urlComponents = URLComponents(
-            string: UrlComponent.posterPathImageUrl + imageActorPath
-        ) else { return }
-        guard let url = urlComponents.url else { return }
-        session.dataTask(with: url) { [weak self] data, _, _ in
-            guard
-                let self = self,
-                let data = data
-            else {
-                return
-            }
+        guard
+            let urlComponents = URLComponents(
+                string: "\(UrlComponent.posterPathImageUrl)\(imageActorPath)"
+            ),
+            let url = urlComponents.url
+        else {
+            return
+        }
+        session.dataTask(with: url) { data, _, _ in
+            guard let data = data else { return }
             self.actorImagesMap[imageActorPath] = data
             completion(data)
         }.resume()
